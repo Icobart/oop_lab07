@@ -10,9 +10,27 @@ import it.unibo.inner.api.IterableWithPolicy;
 public class IterableWithPolicyImpl<T> implements IterableWithPolicy<T> {
 
     private final T[] arr;
+    private final Predicate<T> pred;
 
     public IterableWithPolicyImpl(final T[] arr) {
+        this(arr, new Predicate<T>() {
+            public boolean test(T arg0) {
+                return true;    
+            } 
+        });
+    }
+
+    public IterableWithPolicyImpl(final T[] arr, final Predicate<T> pred) {
+        this.pred = pred;
         this.arr = arr;
+    }
+
+    public Iterator<T> iterator() {
+        return this.new IteratorImpl();
+    }
+
+    public void setIterationPolicy(Predicate<T> filter) {
+        
     }
 
     private class IteratorImpl implements Iterator<T>{
@@ -33,13 +51,4 @@ public class IterableWithPolicyImpl<T> implements IterableWithPolicy<T> {
         }
 
     } 
-
-    public Iterator<T> iterator() {
-        return this.new IteratorImpl();
-    }
-
-    public void setIterationPolicy(Predicate<T> filter) {
-        
-    }
-
 }
