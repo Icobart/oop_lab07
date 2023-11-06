@@ -1,8 +1,6 @@
 package it.unibo.inner.impl;
 
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 import java.util.function.Predicate;
 
 import it.unibo.inner.api.IterableWithPolicy;
@@ -10,7 +8,7 @@ import it.unibo.inner.api.IterableWithPolicy;
 public class IterableWithPolicyImpl<T> implements IterableWithPolicy<T> {
 
     private final T[] arr;
-    private final Predicate<T> pred;
+    private Predicate<T> pred;
 
     public IterableWithPolicyImpl(final T[] arr) {
         this(arr, new Predicate<T>() {
@@ -30,7 +28,7 @@ public class IterableWithPolicyImpl<T> implements IterableWithPolicy<T> {
     }
 
     public void setIterationPolicy(Predicate<T> filter) {
-        
+        this.pred = filter;
     }
 
     private class IteratorImpl implements Iterator<T>{
@@ -47,7 +45,9 @@ public class IterableWithPolicyImpl<T> implements IterableWithPolicy<T> {
         }   
 
         public T next() {
-            return this.app[pointer++];
+            if(IterableWithPolicyImpl.this.pred == this.app[pointer++] && hasNext())
+                return this.app[pointer];
+            return null;
         }
 
     } 
