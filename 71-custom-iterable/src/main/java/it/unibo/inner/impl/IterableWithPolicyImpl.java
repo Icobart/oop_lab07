@@ -1,6 +1,7 @@
 package it.unibo.inner.impl;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.function.Predicate;
 
 import it.unibo.inner.api.IterableWithPolicy;
@@ -41,14 +42,23 @@ public class IterableWithPolicyImpl<T> implements IterableWithPolicy<T> {
 
 
         public boolean hasNext() {
-            return (this.app != null && pointer < app.length);
+            while(pointer < app.length) {
+                if(IterableWithPolicyImpl.this.pred.test(this.app[pointer])) {
+                    return true;
+                }
+                pointer++;
+            }
+            return false;
         }   
 
         public T next() {
-            if(IterableWithPolicyImpl.this.pred == this.app[pointer++] && hasNext())
-                return this.app[pointer];
-            return null;
-        }
-
+            if(this.hasNext()) {
+                return this.app[pointer++];
+            }
+            throw new NoSuchElementException();
+        }/*
+        public T next() {
+            return this.app[pointer++];
+        }*/
     } 
 }
