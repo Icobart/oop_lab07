@@ -76,9 +76,7 @@ public final class MonthSorterNested implements MonthSorter {
 
     private static class SortByDate implements Comparator<String> {
         public int compare(String s1, String s2) {
-            final var m1 = Month.fromString(s1);
-            final var m2 = Month.fromString(s2);
-            return Integer.compare(m1.days, m2.days);
+            return Integer.compare(Month.fromString(s1).days, Month.fromString(s2).days);
         }
 
     }
