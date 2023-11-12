@@ -56,9 +56,6 @@ public class IterableWithPolicyImpl<T> implements IterableWithPolicy<T> {
                 return this.app[pointer++];
             }
             throw new NoSuchElementException();
-        }/*
-        public T next() {
-            return this.app[pointer++];
-        }*/
+        }
     } 
 }
